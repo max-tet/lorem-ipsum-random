@@ -1,7 +1,7 @@
 module WList
-( insert
-, weight
-, show
+( WList (Empty, Leaf, Node)
+, distribFromList
+, pickRandom
 ) where
 
 import qualified System.Random as Random
@@ -27,9 +27,13 @@ weight Empty = 0
 weight (Leaf w _) = w
 weight (Node l r) = (weight l) + (weight r)
 
-fromList :: [(Int,a)] -> WList a
-fromList [] = Empty
-fromList (x:xs) = insert x (fromList xs)
+fromTupleList :: [(Int,a)] -> WList a
+fromTupleList [] = Empty
+fromTupleList (x:xs) = insert x (fromTupleList xs)
+
+distribFromList :: Eq b => (a -> b) -> [a] -> WList.WList b
+distribFromList f [] = WList.Empty
+distribFromList f (x:xs) = WList.bumpOrInsert (f x) (distribFromList f xs)
 
 insert :: (Int, a) -> WList a -> WList a
 insert (w, e) Empty = Leaf w e
