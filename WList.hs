@@ -2,6 +2,7 @@ module WList
 ( WList (Empty, Leaf, Node)
 , distribFromList
 , pickRandom
+, bumpOrInsert
 ) where
 
 import qualified System.Random as Random
